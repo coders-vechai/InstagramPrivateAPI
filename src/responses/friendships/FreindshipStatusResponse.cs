@@ -2,7 +2,7 @@
 
 namespace InstagramPrivateAPI.src.responses.friendships
 {
-    internal class FriendshipStatusResponse : Response
+    internal class FreindshipStatusResponse : Response
     {
         public Friendship friendship_status;
     }

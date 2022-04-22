@@ -1,4 +1,5 @@
-﻿using InstagramPrivateAPI.src.utils;
+﻿using InstagramPrivateAPI.src.responses;
+using InstagramPrivateAPI.src.utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
@@ -11,12 +12,11 @@ namespace InstagramPrivateAPI.src.requests
     {
         public static CookieContainer Cookies = new CookieContainer();
         private static HttpWebResponse postResponse;
-        public static T Send<T>(string endpoint, string post = null, bool login = false, int version = 0)
+        public static T Send<T>(string endpoint, string post = null, bool login = false, int version = 0) where T : Response
         {
             if (!Globals.isLoggedIn && !login)
-            {
                 Console.WriteLine("Not logged in!");
-            }
+
             Console.WriteLine($"Debugging ... {endpoint}");
             HttpWebRequest postReq = (HttpWebRequest)WebRequest.Create(Constants.API_URLS[version] + endpoint);
             postReq.AutomaticDecompression = DecompressionMethods.GZip;
@@ -52,9 +52,8 @@ namespace InstagramPrivateAPI.src.requests
                     catch { }
                 }
                 else
-                {
                     Console.WriteLine("Request return " + postResponse.StatusCode + " error");
-                }
+
             }
             catch (WebException e)
             {
@@ -63,21 +62,15 @@ namespace InstagramPrivateAPI.src.requests
             return JsonConvert.DeserializeObject<T>(Globals.LastResponse);
         }
 
-        public static void ReadCookies(String session_fname)
-        {
-            Cookies = ReadCookiesFromDisk(session_fname);
-        }
+        public static void ReadCookies(String session_fname) => Cookies = ReadCookiesFromDisk(session_fname);
 
         public static void UseCookies(string cookie_fname = "cookie_data.txt", string session_fname = "session.txt")
         {
             JObject cookie = new JObject();
             foreach (Cookie cook in postResponse.Cookies)
             {
-                //Console.WriteLine(cook);
                 string name = cook.ToString().Split('=')[0];
                 string value = cook.ToString().Split('=')[1];
-
-                //cookie.name = value;
 
                 cookie.Add(new JProperty(name, value));
             }
@@ -86,15 +79,9 @@ namespace InstagramPrivateAPI.src.requests
             WriteCookiesToDisk(session_fname, Cookies);
         }
 
-        public static void SaveCookiesData(string file, string cookie)
-        {
-            File.WriteAllText(file, cookie);
-        }
+        public static void SaveCookiesData(string file, string cookie) => File.WriteAllText(file, cookie);
 
-        public static string LoadCookiesData(string file)
-        {
-            return File.ReadAllText(file);
-        }
+        public static string LoadCookiesData(string file) => File.ReadAllText(file);
 
         public static void WriteCookiesToDisk(string file, CookieContainer cookieJar)
         {
@@ -116,7 +103,6 @@ namespace InstagramPrivateAPI.src.requests
 
         public static CookieContainer ReadCookiesFromDisk(string file)
         {
-
             try
             {
                 using (Stream stream = File.Open(file, FileMode.Open))

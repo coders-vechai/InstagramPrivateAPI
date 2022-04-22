@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace InstagramPrivateAPI.src.responses.location
 {
-    internal class LocationSearchResponse
+    internal class LocationSearchResponse : Response
     {
         public List<Venue> venues { get; set; }
         public string request_id { get; set; }

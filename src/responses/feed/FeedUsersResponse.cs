@@ -1,11 +1,12 @@
-﻿using InstagramPrivateAPI.src.models.user;
+﻿using InstagramPrivateAPI.src.models.media;
+using InstagramPrivateAPI.src.models.user;
 using Newtonsoft.Json;
 
 namespace InstagramPrivateAPI.src.responses.feed
 {
     internal class FeedUsersResponse : Response
     {
-        public List<Profile> users { get; set; }
+        public List<Media> items { get; set; }
         public int num_results { get; set; }
         public bool more_available { get; set; }
         public string next_max_id { get; set; }

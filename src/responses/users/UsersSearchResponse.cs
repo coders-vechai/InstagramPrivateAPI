@@ -1,9 +1,10 @@
 ﻿using InstagramPrivateAPI.src.models.friendships;
 using InstagramPrivateAPI.src.models.user;
+using Newtonsoft.Json;
 
 namespace InstagramPrivateAPI.src.responses.users
 {
-    internal class UsersSearchResponse
+    internal class UsersSearchResponse : Response
     {
         private int num_results { get; set; }
         private List<User> users { get; set; }
@@ -19,5 +20,7 @@ namespace InstagramPrivateAPI.src.responses.users
             int mutual_followers_count { get; set; }
             int latest_reel_media { get; set; }
         }
+
+        public override string ToString() => JsonConvert.SerializeObject(this);
     }
 }
